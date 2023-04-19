@@ -1,0 +1,1 @@
+# dissecting-rails-workshop

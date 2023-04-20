@@ -11,6 +11,8 @@ GEM
       concurrent-ruby (~> 1.0)
     minitest (5.18.0)
     rack (2.2.6.4)
+    rack-contrib (2.3.0)
+      rack (~> 2.0)
     rackup (1.0.0)
       rack (< 3)
       webrick
@@ -24,6 +26,7 @@ PLATFORMS
 DEPENDENCIES
   activesupport (~> 7.0)
   rack (~> 2.2)
+  rack-contrib (~> 2.3)
   rackup (~> 1.0)
 
 RUBY VERSION

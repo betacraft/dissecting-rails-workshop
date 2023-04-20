@@ -4,3 +4,4 @@ ruby '3.2.2'
 gem "rack", "~> 2.2"
 gem "rackup", "~> 1.0"
 gem "activesupport", "~> 7.0"
+gem "rack-contrib", "~> 2.3"

@@ -1,4 +1,3 @@
-
 # problem 1
 products = [
   { name: 'Samsung', category: 'TV', rating: 4.5 },

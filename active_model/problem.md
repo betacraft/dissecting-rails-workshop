@@ -1,7 +1,3 @@
-# Validating CSV Uploads using Active Model APIs
+# Active Model
 
-Let's say you had to implement a CSV Upload feature which would populate a database table.
-
-However the CSV file might have columns that have missing data and you decide that only if all the rows have valid data then only that import should succeed.
-
-Using Active Model APIs can help immensely here, specifically the ActiveModel::Validations.
+You are provided a CSV file with list of users. The columns provided are first_name, last_name and email. You need to write a script that iterates through this file and lists out wrong rows with row number which are validated for presence of all fields and format validation for email field.

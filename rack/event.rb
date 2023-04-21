@@ -1,4 +1,5 @@
 class Event
+
   @@max_id = 0
   @events = []
 
@@ -14,6 +15,7 @@ class Event
   end
 
   class << self
+
     attr_reader :events
 
     def event(event_id)

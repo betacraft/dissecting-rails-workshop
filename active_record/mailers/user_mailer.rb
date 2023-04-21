@@ -2,6 +2,7 @@ require 'action_mailer'
 require 'erb'
 
 class UserMailer < ActionMailer::Base
+
   default from: 'user@example.com'
 
   def notification_mail

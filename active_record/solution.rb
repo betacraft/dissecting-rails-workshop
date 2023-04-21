@@ -9,6 +9,7 @@ require 'json'
 # script can be run.
 
 class UserEmailSender
+
   def self.call(user_id)
     new(user_id).call
   end

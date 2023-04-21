@@ -2,6 +2,7 @@ require 'active_model'
 require 'open-uri'
 
 class User
+
   include ActiveModel::API
 
   attr_accessor :first_name, :last_name, :email

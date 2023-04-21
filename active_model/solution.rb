@@ -4,6 +4,7 @@ require 'csv'
 require_relative 'user'
 
 class UserCSVValidator
+
   def self.call(file_name)
     new(file_name).call
   end

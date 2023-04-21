@@ -7,3 +7,7 @@ ruby '3.2.2'
 gem 'activerecord', '~> 7.0'
 
 gem 'sqlite3', '~> 1.6'
+
+gem 'actionmailer', '~> 7.0'
+
+gem 'letter_opener', '~> 1.8'

@@ -2,7 +2,11 @@
 require 'active_support/core_ext/hash/indifferent_access'
 require_relative 'config'
 require_relative 'models/user'
+require_relative 'mailers/user_mailer'
 require 'json'
+
+# NOTE: the seeds.rb script needs to be run before the solution.rb
+# script can be run.
 
 class UserEmailSender
   def self.call(user_id)
@@ -17,7 +21,7 @@ class UserEmailSender
   def call
     user = User.select(:name, :email)
                .find @user_id
-    # UserMailer.demo_mail.deliver_now
+    UserMailer.with(user:).notification_mail.deliver_now
     { status_code: 200, body: user.to_json }
   end
 end

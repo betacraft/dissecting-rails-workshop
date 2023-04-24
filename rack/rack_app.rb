@@ -1,5 +1,4 @@
 class RackApp
-
   def call(env)
     request = Rack::Request.new env
     if request.path_info == '/' && request.get?

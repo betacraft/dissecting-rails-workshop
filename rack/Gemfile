@@ -5,8 +5,8 @@ source 'https://rubygems.org'
 ruby '3.2.2'
 
 # Rack related gems
-gem 'rack', '~> 2.2.4'
-gem 'rackup', '~> 0.1.0'
+gem 'rack', '~> 2.2'
+gem 'rackup', '~> 1.0'
 
 # web servers
 gem 'puma', '~> 5.6.5'

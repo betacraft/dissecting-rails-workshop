@@ -1,7 +1,6 @@
 require_relative 'event'
 
 class EventApp
-
   def self.call(env)
     new(env).call
   end

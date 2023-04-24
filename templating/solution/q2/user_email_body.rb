@@ -23,4 +23,3 @@ class TemplateRenderer
   end
 
 end
-p UserEmailBody.new.call

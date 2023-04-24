@@ -52,7 +52,10 @@ class UserCSVValidator
   def call
     @users = mapped_users
     @invalid_users = scan_invalid_users
-    return unless @invalid_users.size.positive?
+    unless @invalid_users.size.positive?
+      puts "#{@file_name} is valid!"
+      return @users
+    end
 
     puts "Invalid rows found in CSV #{@file_name}!"
     @invalid_users.each do |index, invalid_user|
@@ -82,6 +85,6 @@ class UserCSVValidator
 end
 
 if __FILE__ == $0
-  UserCSVValidator.call('good_users.csv')
-  UserCSVValidator.call('bad_users.csv')
+  UserCSVValidator.call('misc/good_users.csv')
+  UserCSVValidator.call('misc/bad_users.csv')
 end

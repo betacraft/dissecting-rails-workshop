@@ -1,8 +1,41 @@
 #!/usr/bin/env ruby
 
 require 'csv'
-require_relative 'user'
+require 'open-uri'
+require 'active_model'
 
+# The User class that is responsible for validating a row of the CSV file
+# that has the first_name, last_name and email headers.
+# User#valid? can be called on instances of User to check if the row is valid.
+class User
+
+  include ActiveModel::API
+
+  attr_accessor :first_name, :last_name, :email
+
+  # we get access to Active Record validation DSL by simply
+  # including the ActiveModel::API module
+  # validation can be complex, why not make life simple
+  # by delegating some of that validation to Active Model's
+  # validation DSL?
+
+  validates :first_name, :last_name, :email, presence: true
+  validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
+
+  def initialize(attributes = {})
+    super
+    @errors = ActiveModel::Errors.new(self)
+  end
+
+  def to_s
+    "#<User @first_name=#{first_name.inspect} @last_name=#{last_name.inspect} @email=#{email.inspect}>"
+  end
+end
+
+# Validate a CSV file with first_name, last_name and email headers
+# going over each row at a time.
+# This class will also let you know which rows have invalid data
+# and what needs to be fixed.
 class UserCSVValidator
 
   def self.call(file_name)

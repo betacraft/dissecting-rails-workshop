@@ -4,10 +4,10 @@ source 'https://rubygems.org'
 
 ruby '3.2.2'
 
+# for Steps 1, 2, 3, 4, and 5
 gem 'activerecord', '~> 7.0'
-
 gem 'sqlite3', '~> 1.6'
 
+# for Steps 3, 4 and 5
 gem 'actionmailer', '~> 7.0'
-
 gem 'letter_opener', '~> 1.8'

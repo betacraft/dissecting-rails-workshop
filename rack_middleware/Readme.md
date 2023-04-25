@@ -89,3 +89,44 @@ curl -X POST "http://127.0.0.1:9292/verify_keynote" \
  -d '{"firstName":"rtdp"}'
 ```
 
+### 1.5 Use `map` to mount multiple Rack apps on different paths
+So far we have had a single Rack app `SimpleRackApp` that serves the root path and a single endpoint `/verify_keynote`.
+Rack provides a `map` method that can be used to mount multiple Rack apps on different paths. 
+- Sample code:
+
+```ruby
+map '/path1' do # matches /path1 and /path1/*
+  run AppForPath1.new
+end
+map '/admin' do # matches /admin and /admin/*
+  run SomeThirdPartyAdminApp.new
+end
+map '/api/v1' do # matches /api/v1 and /api/v1/*
+  use SomeApiMiddleware
+  run ApiV1App.new
+end
+run DefaultApp.new # matches everything else
+```
+1.5.1. We will use our SimpleRackApp as the default app.
+1.5.2. Let's mount the demo app that comes with the Rack gem, Rack::Lobster at `/lobster`
+```ruby
+require 'rack/lobster'
+run Rack::Lobster.new
+```
+1.5.3. Let's mount the Pony app available at `./misc/pony` which inspired the Lobster app at `/pony`. 
+* See links for context.
+    - [Paste has a Pony, Rack has a Lobster!](https://github.com/rack/rack/blob/983b6e3b29a2048a86518c008fc46f4c86105683/lib/rack/lobster.rb#L6)
+    - [Rack has lobster, Plug has octopus](https://github.com/jeffkreeftmeijer/plug_octopus#plugoctopus)
+
+```ruby
+require_relative 'misc/pony'
+run Pony.new
+```
+
+1.5.4. Visit the following URLs and see the different apps in action.
+- `http://localhost:9292/`
+- `http://localhost:9292/verify_keynote`
+- `http://localhost:9292/lobster`
+- `http://localhost:9292/pony`
+- `http://localhost:9292/pony/pony`
+- `http://localhost:9292/test_unhandled_route`

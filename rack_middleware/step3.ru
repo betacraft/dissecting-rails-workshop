@@ -28,19 +28,23 @@ class SimpleRackApp
     puts "====="
     if CONFERENCE_KEYNOTE_SPEAKERS.include?(req.params['first_name'])
       [200,
-       {},
-       [{
+       {'Content-Type' => 'application/json'},
+       [
+         {
           first_name: req.params['first_name'],
           message: "This person is a keynote speaker."
-        }]
+         }.to_json
+       ]
       ]
     else
       [200,
-       {},
-       [{
+       {'Content-Type' => 'application/json'},
+       [
+         {
           first_name: req.params['first_name'],
           message: "This person is not a keynote speaker."
-        }]
+         }.to_json
+       ]
       ]
     end
   end
@@ -62,7 +66,7 @@ class Snakamel
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
     # Step 3: Process the outgoing response # # # # # # # # # #
-    body = camelize(body)
+    body = camelize(body) if camelize?(headers)
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
     # Step 4: Pass the response to the previous middleware or client
@@ -83,6 +87,11 @@ class Snakamel
     json = JSON.parse(body.first)
     json.deep_transform_keys! { |k| k.camelize(:lower) }
     [json.to_json]
+  end
+
+  def camelize?(headers)
+    # camelize if the response is JSON
+    headers['Content-Type'] == 'application/json'
   end
 end
 

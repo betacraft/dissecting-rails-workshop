@@ -1,10 +1,20 @@
+# BONUS
+# Active Record
+# You need write an independent service that runs on AWS Lambda to send out emails. This service will be provided with
+# user-id when events trigger - based on those events, you will need to connect with databased, retrieve name and email
+# for that user and send out the email.
+# NOTE: run the script from within the misc directory.
 require 'erb'
 require 'active_record'
 require 'action_mailer'
 require 'letter_opener'
 
 # for connecting to the database
-ActiveRecord::Base.establish_connection adapter: 'sqlite3', database: 'active_record.sqlite3'
+ActiveRecord::Base.establish_connection adapter: 'sqlite3',
+                                        database: File.join(
+                                          File.expand_path('..'),
+                                          'active_record.sqlite3'
+                                        )
 Arel::Table.engine = ActiveRecord::Base
 
 # so that mails open up nicely in the browser
@@ -42,18 +52,32 @@ end
 # That something can be anything, no limits to imagination!
 class UserMailer < ActionMailer::Base
 
+  default from: 'user@example.com'
+
   def notification_mail
     @user = params[:user]
     subject = "Notification for #{@user.name}"
-    template_renderer = TemplateRenderer.new(File.read('misc/notification_mail.erb'), binding)
-    mail from: email_address_with_name('support@example.com', 'Support'),
-         to: email_address_with_name(@user.email, @user.name),
+    template_renderer = TemplateRenderer.new(File.read('notification_mail.erb'), binding)
+    mail to: @user.email,
          subject:,
          content_type: 'text/html',
          body: template_renderer.render
   end
 end
 
-user = User.select(:name, :email)
-           .first!
-UserMailer.with(user:).notification_mail.deliver_now
+class UserEmailSender
+
+  def self.call(user_id)
+    user = User.select(:name, :email)
+               .find user_id
+    UserMailer.with(user:).notification_mail.deliver_now
+    { status_code: 200, body: user.to_json }
+  end
+end
+
+def lambda_handler(event:, context:)
+  UserEmailSender.call(event['user_id']) => { status_code:, body: }
+  { status_code:, body: }
+end
+
+# lambda_handler(event: { 'user_id' => 1 }, context: {})

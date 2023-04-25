@@ -1,8 +1,8 @@
-# Exercise 2 : Active Record, Templating and ActionMailer
+# Exercise 2: Active Record, Templating and Action Mailer
 
-### Prerequisites and setup -
+## Prerequisites and Setup
 
-Run the following command:
+Run the following commands:
 
 ```bash
 cd active_record
@@ -10,23 +10,9 @@ bundle # install dependencies declared in Gemfile
 bundle exec rake # to run migrations and seed database
 ```
 
-### 2.1 - Write an User class and get all ActiveRecord powers to it.
+## 2.1 - Write an User class and get all Active Record powers to it.
 
 To get started with creating a Active Record model, use the following:
-
-```ruby
-require 'active_record'
-
-class User < ActiveRecord::Base
-  # type your code here
-end
-```
-
-We have a sqlite3 database with a `users` table with `name` and `email` columns. Then try out:
-
-1. connecting to the database using Active Record
-
-Copy this code to get started
 
 ```ruby
 require 'active_record'
@@ -34,55 +20,66 @@ require 'active_record'
 # for connecting to the database
 ActiveRecord::Base.establish_connection adapter: 'sqlite3', database: 'active_record.sqlite3'
 Arel::Table.engine = ActiveRecord::Base
+
+class User < ActiveRecord::Base
+end
 ```
 
-2. using Active Record and fetch the count of Users in the database
+We have a sqlite3 database with a `users` table with `name` and `email` columns. Then try out:
 
-3. list the Users out with their name and email
+1. using Active Record to fetch the count of Users in the database
+2. print the first and last User record in the database
 
-4. try creating a User record ensuring presence of name and email fields and correct format of the email
+## 2.2 - Render an ERB template with sample email content
 
-### 2.2 - Render an ERB template with sample email content
+To get started with this, use the following:
 
-We have an ERB template that needs to be rendered. Use the `erb` gem
-to render the `notification_mail.erb` template.
+```ruby
+require 'erb'
 
-### 2.3 - Send an simple email out with ActionMailer
+template = ERB.new <<~HTML
+<!DOCTYPE html>
+<html>
+<body>
+  <h1>Hi, <%= @user.name %>!</h1>
+</body>
+</html>
+HTML
+User = Struct.new(:name)
+@user = User.new 'Example User'
+puts template.result binding
+```
 
-To get started with creating a Active Record model, use the following:
+Taking the template file `notification_mail.erb` under the `misc` directory and try to:
+
+1. render that using the `erb` standard library
+2. write that rendered HTML to a file and verify that it actually rendered it
+
+## 2.3 - Send a simple email out with Action Mailer
+
+To get started with creating a Action Mailer mailer, use the following:
 
 ```ruby
 require 'action_mailer'
+require 'letter_opener'
+
+# so that mails don't actually get sent and it opens up nicely in the browser instead
+ActionMailer::Base.add_delivery_method :letter_opener,
+                                       LetterOpener::DeliveryMethod,
+                                       location: File.expand_path('tmp/letter_opener', __dir__)
+ActionMailer::Base.delivery_method = :letter_opener
 
 class UserMailer < ActionMailer::Base
   # type your code here
 end
 ```
 
-<!-- write down the steps/challenges the audience can try out, if any -->
+1. create a method in the `UserMailer` called `notification_mailer` that expects a `:user` param
+2. set the subject and body of the mail to be specific to the User, using their name and email. You have access to helpers like `email_address_with_name(address, name)` which you may use in your scripts
+3. send that mail out calling `deliver_now` on the mailer
 
-### 2.4 - Combine all these different code samples together in single app
+_Note: It's fine for now to have the mail body just be a plain text one._
 
-# Active Record
+## 2.4 - Write a script to find the first User and send a rendered HTML email to them using Action Mailer
 
-You need write an independent service that runs on AWS Lambda to send out emails. This service will be provided with user-id when events trigger - based on those events, you will need to connect with databased, retrieve name and email for that user and send out the email.
-
-Some configuration that can simply copy paste in your scripts:
-
-```ruby
-require 'active_record'
-require 'action_mailer'
-require 'letter_opener'
-
-# for connecting to the database
-ActiveRecord::Base.establish_connection adapter: 'sqlite3', database: 'active_record.sqlite3'
-Arel::Table.engine = ActiveRecord::Base
-
-# so that mails open up nicely in the browser
-ActionMailer::Base.add_delivery_method :letter_opener,
-                                       LetterOpener::DeliveryMethod,
-                                       location: File.expand_path('tmp/letter_opener', __dir__)
-ActionMailer::Base.delivery_method = :letter_opener
-```
-
-_Note: Don't forget to run `rake` to setup the sqlite3 database._
+Try and use whatever we have built (in steps 2.1 till 2.3) so far to solve this.

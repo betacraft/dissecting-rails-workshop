@@ -11,41 +11,18 @@ ActionMailer::Base.delivery_method = :letter_opener
 # That something can be anything, no limits to imagination!
 class UserMailer < ActionMailer::Base
 
-  default from: 'user@example.com'
-
   def notification_mail
     @user = params[:user]
-    subject = "Notification for #{@user.name}"
-    mail to: @user.email,
-         subject:,
-         content_type: 'text/html',
-         body: notification_mail_body(@user)
-  end
-
-  private
-
-  def notification_mail_body(_user)
-    <<~HTML
-      <!DOCTYPE html>
-      <html>
-        <head>
-          <meta charset="utf-8" />
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-          <title>Notification Mail</title>
-        </head>
-        <body>
-          <h1>Notification Mail</h1>
-          <p>Notification mail for <a href="mailto:#{@user.email}">#{@user.name}</a> from <a href="mailto:user@example.com">user@example.com</a></p>
-        </body>
-      </html>
-    HTML
+    mail from: email_address_with_name('support@example.com', 'Support'),
+         to: email_address_with_name(@user.email, @user.name),
+         subject: "Notification for #{@user.name}",
+         # content_type: 'text/plain', # this is the default Content Type
+         body: "Hi, you have a new notification #{@user.name} <#{@user.email}>!"
   end
 end
 
 User = Struct.new(:name, :email, keyword_init: true)
 
-if __FILE__ == $0
-  # we are almost there...
-  @user = User.new name: 'Example User', email: 'user@example.com'
-  UserMailer.with(user: @user).notification_mail.deliver_now
-end
+# we are almost there...
+@user = User.new name: 'Example User', email: 'user@example.com'
+UserMailer.with(user: @user).notification_mail.deliver_now

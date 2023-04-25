@@ -84,7 +84,5 @@ class UserCSVValidator
   end
 end
 
-if __FILE__ == $0
-  UserCSVValidator.call('misc/good_users.csv')
-  UserCSVValidator.call('misc/bad_users.csv')
-end
+UserCSVValidator.call('misc/good_users.csv')
+UserCSVValidator.call('misc/bad_users.csv')

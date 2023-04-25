@@ -73,6 +73,9 @@ class Middleware
 end
 ```
 
+
+ ## Bonus Steps :
+
 ### 1.4 Add a Rack middleware to handle JSON request bodies
 Out of the box, Rack does not parse JSON request bodies [Content-Type: application/json] into Rack::Request#params. We need to add a middleware to parse the JSON request body and add it to the request params hash.
 The rack-contrib gem is a collection of multiple community contributed middlewares.

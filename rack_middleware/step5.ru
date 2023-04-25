@@ -1,6 +1,7 @@
 require 'active_support/all'
 require 'rack/contrib/json_body_parser'
 require 'rack/lobster'
+
 class SimpleRackApp
 
   CONFERENCE_KEYNOTE_SPEAKERS = [

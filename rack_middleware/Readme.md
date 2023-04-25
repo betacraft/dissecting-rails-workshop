@@ -48,10 +48,12 @@ OR
 'This person is not a keynote speaker.'
 ```
 
-### 1.3 Add a Rack middleware so that mobile developers can keep their camelcase styles
+### 1.3 Add a Rack middleware so that mobile developers consuming this endpoint can keep their camelcase styles
 
 The endpoint built in this exercise will be used by a mobile application that prefers sending and receiving the parameters in camel case format instead of snake case format. You might have come across such use cases quite often. Build a Rack middleware and use with our SimpleRackApp.
+
 The middleware should only modify the response body if its content type is `application/json`.
+
 ```ruby
 class Middleware
   def initialize(app)

@@ -8,7 +8,7 @@ class UserEmailBody
   end
 
   def call
-    TemplateRenderer.new(binding).render
+    TemplateRenderer.new(@template_string).render(binding)
   end
 end
 

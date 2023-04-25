@@ -13,10 +13,10 @@ ActionMailer::Base.add_delivery_method :letter_opener,
                                        location: File.expand_path('tmp/letter_opener', __dir__)
 ActionMailer::Base.delivery_method = :letter_opener
 
-# An ERB template renderer, just pass it along the ERB template
-# as a String and the current binding for instance variable
-# discovery and then call TemplateRenderer#render to get the
-# rendered ERB.
+# An ERB template renderer class -
+# initialize it with the ERB template as a String and
+# the current binding for instance variable discovery then
+# call TemplateRenderer#render to get the rendered ERB.
 class TemplateRenderer
 
   # @param [String] template_string
@@ -33,9 +33,6 @@ end
 
 # The User class that we'll be using in the solution
 class User < ActiveRecord::Base
-
-  validates :name, :email, presence: true
-  validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
 end
 
 # The User mailer, we'll use this to notify a User about something.
@@ -48,12 +45,11 @@ class UserMailer < ActionMailer::Base
     template_renderer = TemplateRenderer.new(File.read('misc/notification_mail.erb'), binding)
     mail from: email_address_with_name('support@example.com', 'Support'),
          to: email_address_with_name(@user.email, @user.name),
-         subject:,
+         subject: subject,
          content_type: 'text/html',
          body: template_renderer.render
   end
 end
 
-user = User.select(:name, :email)
-           .first!
-UserMailer.with(user:).notification_mail.deliver_now
+user = User.select(:name, :email).first!
+UserMailer.with(user: user).notification_mail.deliver_now

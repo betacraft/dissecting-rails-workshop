@@ -10,7 +10,8 @@ class User < ActiveRecord::Base
 end
 
 # Part 1
-puts "We have #{User.count :id} Users to start with..."
+puts "User.count : #{User.count :id}"
+
 # Part 2
 puts "First User: #{User.first.inspect}"
 puts "Last User: #{User.last.inspect}"

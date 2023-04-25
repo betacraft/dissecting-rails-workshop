@@ -25,10 +25,10 @@ class User < ActiveRecord::Base
 end
 ```
 
-We have a sqlite3 database with a `users` table with `name` and `email` columns. Then try out:
+We have a sqlite3 database with a `users` table that has `name` and `email` columns. Try out:
 
-1. using Active Record to fetch the count of Users in the database
-2. print the first and last User record in the database
+1. using ActiveRecord to fetch the count of users in the database
+2. fetch the first and last User record from the database
 
 ## 2.2 - Render an ERB template with sample email content
 

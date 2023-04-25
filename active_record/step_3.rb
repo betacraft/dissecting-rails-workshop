@@ -1,7 +1,7 @@
 require 'action_mailer'
 require 'letter_opener'
 
-# so that mails open up nicely in the browser
+# Configure LetterOpener so that mails open up nicely in the browser
 ActionMailer::Base.add_delivery_method :letter_opener,
                                        LetterOpener::DeliveryMethod,
                                        location: File.expand_path('tmp/letter_opener', __dir__)
@@ -13,8 +13,8 @@ class UserMailer < ActionMailer::Base
 
   def notification_mail
     @user = params[:user]
-    mail from: email_address_with_name('support@example.com', 'Support'),
-         to: email_address_with_name(@user.email, @user.name),
+    mail from: 'support@example.com',
+         to: @user.email,
          subject: "Notification for #{@user.name}",
          # content_type: 'text/plain', # this is the default Content Type
          body: "Hi, you have a new notification #{@user.name} <#{@user.email}>!"

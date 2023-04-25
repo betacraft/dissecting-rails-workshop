@@ -4,12 +4,10 @@
 
 Make sure you have below things ready and installed - 
 ```ruby
-# ruby --version
-ruby 3.2.2
-# rails --version
-rails 7.0.4.3
-# rackup --v
-rackup 1.0
+ruby 3.2.2    # ruby --version
+rails 7.0.4.3 # rails --version
+rackup 1.0    # rackup --v
+rack-contrib
 ```
 
 To install exact version of Rails mentioned above, use below command - 
@@ -22,24 +20,31 @@ To install rackup, run below command -
 gem install rackup -v 1.0
 ```
 
+To install rack-contrib, run below command -
+```ruby
+gem install rack-contrib
+```
+
 
 ### 1.1 Build simple Rack Application - 
 
 Build a simple rack application that just renders the string "Hello World!". Let's name this as SimpleRackApp.
 
 
-### 1.2 Add an simple action that checks if a person is registered for conference
+### 1.2 Add an simple action that checks if a speaker is keynote speaker or not 
 
-We have standard list of attendies for the conference as - 
+We have standard list of keynote speakers for the conference as - 
 ```ruby
-CONFERENCE_ATTENDEES = [
-  'Rtdp',
-  'Noel',
-  'Eileen'
+CONFERENCE_KEYNOTE_SPEAKERS = [
+  'eileen',
+  'gary',
+  'rafael',
+  'shani',
+  'aaron'
 ]
 ```
 
-The application should accept `first_name` parameter and return if person is registered for conference or not.
+The application should accept `first_name` parameter and check if speaker is keynote speaker or not.
 
 ### 1.3 Add a middleware so that mobile developers can keep their camelcase styles
 

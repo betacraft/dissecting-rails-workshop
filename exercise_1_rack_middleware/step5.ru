@@ -4,13 +4,7 @@ require 'rack/lobster'
 
 class SimpleRackApp
 
-  CONFERENCE_KEYNOTE_SPEAKERS = [
-    'eileen',
-    'gary',
-    'rafael',
-    'shani',
-    'aaron'
-  ]
+  CONFERENCE_KEYNOTE_SPEAKERS = %w[eileen gary rafael shani aaron]
 
   def call(env)
     req = Rack::Request.new(env)

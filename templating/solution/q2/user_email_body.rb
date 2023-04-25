@@ -13,13 +13,12 @@ class UserEmailBody
 end
 
 class TemplateRenderer
-  def initialize(obj)
-    @user = eval("@user", obj)
-    @template = ERB.new(eval("@template_string", obj))
+  def initialize(template_string)
+    @template = ERB.new(template_string)
   end
 
-  def render
-    @template.result(binding)
+  def render(b)
+    @template.result(b)
   end
 
 end

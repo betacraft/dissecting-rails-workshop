@@ -1,5 +1,5 @@
 require 'active_support/all'
-
+require 'rack/contrib/json_body_parser'
 class SimpleRackApp
 
   CONFERENCE_KEYNOTE_SPEAKERS = [
@@ -95,5 +95,6 @@ class Snakamel
   end
 end
 
+use Rack::JSONBodyParser
 use Snakamel
 run SimpleRackApp.new

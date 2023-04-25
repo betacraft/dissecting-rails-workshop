@@ -1,5 +1,6 @@
 require 'active_support/all'
-
+require 'rack/contrib/json_body_parser'
+require 'rack/lobster'
 class SimpleRackApp
 
   CONFERENCE_KEYNOTE_SPEAKERS = [
@@ -95,5 +96,16 @@ class Snakamel
   end
 end
 
+map '/lobster' do # paths should start with '/'
+  run Rack::Lobster.new
+end
+map '/pony' do
+  require_relative 'misc/pony' # perform route specific tasks here; can even include a middleware that should be used only for this route
+  run Pony.new
+end
+# map '/admin' { run SomeAdminApp.new }
+
+# Default Rack App that would be executed for routes that are not mapped
+use Rack::JSONBodyParser
 use Snakamel
 run SimpleRackApp.new

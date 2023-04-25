@@ -5,7 +5,7 @@
 Run the following commands:
 
 ```bash
-cd active_record
+cd exercise_2_active_record
 bundle # install dependencies declared in Gemfile
 bundle exec rake # to run migrations and seed database
 ```
@@ -18,7 +18,7 @@ To get started with creating a Active Record model, use the following:
 require 'active_record'
 
 # for connecting to the database
-ActiveRecord::Base.establish_connection adapter: 'sqlite3', database: 'active_record.sqlite3'
+ActiveRecord::Base.establish_connection adapter: 'sqlite3', database: 'exercise_2_active_record.sqlite3'
 Arel::Table.engine = ActiveRecord::Base
 
 class User < ActiveRecord::Base

@@ -13,7 +13,7 @@ require 'letter_opener'
 ActiveRecord::Base.establish_connection adapter: 'sqlite3',
                                         database: File.join(
                                           File.expand_path('..'),
-                                          'active_record.sqlite3'
+                                          'exercise_2_active_record.sqlite3'
                                         )
 Arel::Table.engine = ActiveRecord::Base
 

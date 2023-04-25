@@ -4,7 +4,7 @@ require 'action_mailer'
 require 'letter_opener'
 
 # for connecting to the database
-ActiveRecord::Base.establish_connection adapter: 'sqlite3', database: 'active_record.sqlite3'
+ActiveRecord::Base.establish_connection adapter: 'sqlite3', database: 'exercise_2_active_record.sqlite3'
 Arel::Table.engine = ActiveRecord::Base
 
 # so that mails open up nicely in the browser

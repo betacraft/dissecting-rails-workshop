@@ -1,0 +1,45 @@
+# Step 0: setup using Rake
+require 'csv'
+require 'open-uri'
+require 'active_record'
+require 'action_mailer'
+
+# Just a migration to create the users table.
+class CreateUsersTable < ActiveRecord::Migration[7.0]
+
+  def change
+    create_table :users, if_not_exists: true do |table|
+      table.string :name
+      table.string :email
+      table.timestamps
+    end
+
+    add_index :users, :email, unique: true
+  end
+end
+
+# The User class that we'll be using in the solution
+class User < ActiveRecord::Base
+
+  validates :name, :email, presence: true
+  validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
+end
+
+task default: %i[connect migrate seed]
+
+task :connect do
+  # for connecting to the database
+  ActiveRecord::Base.establish_connection adapter: 'sqlite3', database: 'active_record.sqlite3'
+  Arel::Table.engine = ActiveRecord::Base
+end
+
+task :migrate do
+  CreateUsersTable.migrate :up
+end
+
+task :seed do
+  CSV.read('misc/users.csv', headers: true).each do |row|
+    User.create! name: "#{row['first_name']} #{row['last_name']}",
+                 email: row['email']
+  end
+end

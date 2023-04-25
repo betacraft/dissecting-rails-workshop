@@ -1,37 +1,51 @@
-require 'erb'
-require 'active_record'
+require 'action_mailer'
+require 'letter_opener'
 
-# for connecting to the database
-ActiveRecord::Base.establish_connection adapter: 'sqlite3', database: 'active_record.sqlite3'
-Arel::Table.engine = ActiveRecord::Base
+# so that mails open up nicely in the browser
+ActionMailer::Base.add_delivery_method :letter_opener,
+                                       LetterOpener::DeliveryMethod,
+                                       location: File.expand_path('tmp/letter_opener', __dir__)
+ActionMailer::Base.delivery_method = :letter_opener
 
-# An ERB template renderer, just pass it along the ERB template
-# as a String and the current binding for instance variable
-# discovery and then call TemplateRenderer#render to get the
-# rendered ERB.
-class TemplateRenderer
+# The User mailer, we'll use this to notify a User about something.
+# That something can be anything, no limits to imagination!
+class UserMailer < ActionMailer::Base
 
-  # @param [String] template_string
-  # @param [Binding] calling_context_binding
-  def initialize(template_string, calling_context_binding)
-    @template = ERB.new template_string
-    @calling_context_binding = calling_context_binding
+  default from: 'user@example.com'
+
+  def notification_mail
+    @user = params[:user]
+    subject = "Notification for #{@user.name}"
+    mail to: @user.email,
+         subject:,
+         content_type: 'text/html',
+         body: notification_mail_body(@user)
   end
 
-  def render
-    @template.result @calling_context_binding
+  private
+
+  def notification_mail_body(_user)
+    <<~HTML
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="utf-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <title>Notification Mail</title>
+        </head>
+        <body>
+          <h1>Notification Mail</h1>
+          <p>Notification mail for <a href="mailto:#{@user.email}">#{@user.name}</a> from <a href="mailto:user@example.com">user@example.com</a></p>
+        </body>
+      </html>
+    HTML
   end
 end
 
-# The User class that we'll be using in the solution
-class User < ActiveRecord::Base
-
-  validates :name, :email, presence: true
-  validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
-end
+User = Struct.new(:name, :email, keyword_init: true)
 
 if __FILE__ == $0
-  @user = User.first!
-  template_renderer = TemplateRenderer.new(File.read('misc/notification_mail.erb'), binding)
-  File.open('misc/mail.html', 'w') { |f| f.write template_renderer.render }
+  # we are almost there...
+  @user = User.new name: 'Example User', email: 'user@example.com'
+  UserMailer.with(user: @user).notification_mail.deliver_now
 end

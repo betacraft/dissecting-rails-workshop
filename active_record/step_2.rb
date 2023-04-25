@@ -1,22 +1,27 @@
-require 'open-uri'
-require 'active_record'
-require 'action_mailer'
+require 'erb'
 
-# for connecting to the database
-ActiveRecord::Base.establish_connection adapter: 'sqlite3', database: 'active_record.sqlite3'
-Arel::Table.engine = ActiveRecord::Base
+# An ERB template renderer, just pass it along the ERB template
+# as a String and the current binding for instance variable
+# discovery and then call TemplateRenderer#render to get the
+# rendered ERB.
+class TemplateRenderer
 
-# The User class that we'll be using in the solution
-class User < ActiveRecord::Base
+  # @param [String] template_string
+  # @param [Binding] calling_context_binding
+  def initialize(template_string, calling_context_binding)
+    @template = ERB.new template_string
+    @calling_context_binding = calling_context_binding
+  end
 
-  validates :name, :email, presence: true
-  validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
+  def render
+    @template.result @calling_context_binding
+  end
 end
 
+User = Struct.new(:name, :email, keyword_init: true)
+
 if __FILE__ == $0
-  puts "We have #{User.count :id} Users to start with..."
-  puts "Let's try and list them out:"
-  User.find_each do |user|
-    puts "id: #{user.id}, name: #{user.name}, email: #{user.email}"
-  end
+  @user = User.new name: 'Example User', email: 'user@example.com'
+  template_renderer = TemplateRenderer.new(File.read('misc/notification_mail.erb'), binding)
+  File.open('misc/mail.html', 'w') { |f| f.write template_renderer.render }
 end

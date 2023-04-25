@@ -1,24 +1,67 @@
 # Exercise 2 : Active Record, Templating and ActionMailer
 
+### Prerequisites and setup -
 
-### Prerequisites and setup - 
+Run the following command:
 
+```bash
+cd active_record
+bundle # install dependencies declared in Gemfile
+bundle exec rake # to run migrations and seed database
+```
 
 ### 2.1 - Write an User class and get all ActiveRecord powers to it.
 
-With that, 
+To get started with creating a Active Record model, use the following:
 
+```ruby
+require 'active_record'
+
+class User < ActiveRecord::Base
+  # type your code here
+end
+```
+
+We have a sqlite3 database with a `users` table with `name` and `email` columns. Then try out:
+
+1. connecting to the database using Active Record
+
+Copy this code to get started
+
+```ruby
+require 'active_record'
+
+# for connecting to the database
+ActiveRecord::Base.establish_connection adapter: 'sqlite3', database: 'active_record.sqlite3'
+Arel::Table.engine = ActiveRecord::Base
+```
+
+2. using Active Record and fetch the count of Users in the database
+
+3. list the Users out with their name and email
+
+4. try creating a User record ensuring presence of name and email fields and correct format of the email
 
 ### 2.2 - Render an ERB template with sample email content
 
+We have an ERB template that needs to be rendered. Use the `erb` gem
+to render the `notification_mail.erb` template.
 
 ### 2.3 - Send an simple email out with ActionMailer
 
+To get started with creating a Active Record model, use the following:
+
+```ruby
+require 'action_mailer'
+
+class UserMailer < ActionMailer::Base
+  # type your code here
+end
+```
+
+<!-- write down the steps/challenges the audience can try out, if any -->
 
 ### 2.4 - Combine all these different code samples together in single app
-
-
-
 
 # Active Record
 
@@ -42,4 +85,4 @@ ActionMailer::Base.add_delivery_method :letter_opener,
 ActionMailer::Base.delivery_method = :letter_opener
 ```
 
-*Note: Don't forget to run `rake` to setup the sqlite3 database.*
+_Note: Don't forget to run `rake` to setup the sqlite3 database._

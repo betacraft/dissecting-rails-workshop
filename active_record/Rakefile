@@ -1,4 +1,4 @@
-# Step 1: setup using Rake
+# Step 0: setup using Rake
 require 'csv'
 require 'open-uri'
 require 'active_record'

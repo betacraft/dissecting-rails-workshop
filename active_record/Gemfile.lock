@@ -83,6 +83,7 @@ GEM
       nokogiri (>= 1.6)
     rails-html-sanitizer (1.5.0)
       loofah (~> 2.19, >= 2.19.1)
+    rake (13.0.6)
     sqlite3 (1.6.2-x86_64-linux)
     timeout (0.3.2)
     tzinfo (2.0.6)
@@ -95,6 +96,7 @@ DEPENDENCIES
   actionmailer (~> 7.0)
   activerecord (~> 7.0)
   letter_opener (~> 1.8)
+  rake (~> 13.0)
   sqlite3 (~> 1.6)
 
 RUBY VERSION

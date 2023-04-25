@@ -55,8 +55,18 @@ class UserMailer < ActionMailer::Base
   end
 end
 
+class UserEmailSender
+
+  def self.call
+    user = User.select(:name, :email)
+               .first!
+    UserMailer.with(user:).notification_mail.deliver_now
+    { status_code: 200, body: user.to_json }
+  end
+end
+
 if __FILE__ == $0
-  # we are almost there...
-  @user = User.new name: 'Example User', email: 'user@example.com'
-  UserMailer.with(user: @user).notification_mail.deliver_now
+  UserEmailSender.call => { status_code:, body: }
+  result = { status_code:, body: }
+  p result
 end

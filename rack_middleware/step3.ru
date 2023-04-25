@@ -13,13 +13,12 @@ class SimpleRackApp
   def call(env)
     req = Rack::Request.new(env)
     case req.path_info
-    when /verify_keynote/
+    when '/verify_keynote'
       verify_keynote(req)
-      #TODO - fix root route check such that if not root route, then 404 should get rendered
-    when /\//
-      [200, {}, ["Hello World from SimpleRackApp!"]]
+    when '/'
+      [200, {'Content-Type' => 'text/plain'}, ["Hello World from SimpleRackApp!"]]
     else
-      [404, {}, ["Page Not Found"]]
+      [404, {'Content-Type' => 'text/plain'}, ["Page Not Found"]]
     end
   end
 

@@ -10,7 +10,7 @@ bundle # install dependencies declared in Gemfile
 bundle exec rake # to run migrations and seed database
 ```
 
-## 2.1 - Write an User class and get all Active Record powers to it.
+## 2.1 - ActiveRecord : Write an User class and get all Active Record powers to it.
 
 To get started with creating a Active Record model, use the following:
 
@@ -27,12 +27,12 @@ end
 
 We have a sqlite3 database with a `users` table that has `name` and `email` columns. Try out:
 
-1. using ActiveRecord to fetch the count of users in the database
-2. fetch the first and last User record from the database
+1. Use ActiveRecord to fetch the count of users in the database
+2. Fetch the first and last User record from the database
 
-## 2.2 - Render an ERB template with sample email content
+## 2.2 - Templating : Render an ERB template with sample email content
 
-To get started with this, use the following:
+Here is a sample code that shows how a template string with variables can be evaluated in current binding.
 
 ```ruby
 require 'erb'
@@ -50,12 +50,12 @@ User = Struct.new(:name)
 puts template.result binding
 ```
 
-Taking the template file `notification_mail.erb` under the `misc` directory and try to:
+Use the template file `notification_mail.erb` under the `misc` directory and:
 
-1. render that using the `erb` standard library
-2. write that rendered HTML to a file and verify that it actually rendered it
+1. Render the template using the `erb` standard library
+2. Write that rendered HTML to a file and verify it
 
-## 2.3 - Send a simple email out with Action Mailer
+## 2.3 - ActionMailer : Send a simple email
 
 To get started with creating a Action Mailer mailer, use the following:
 
@@ -63,7 +63,7 @@ To get started with creating a Action Mailer mailer, use the following:
 require 'action_mailer'
 require 'letter_opener'
 
-# so that mails don't actually get sent and it opens up nicely in the browser instead
+# so that mails don't actually get sent and it opens up nicely in the browser
 ActionMailer::Base.add_delivery_method :letter_opener,
                                        LetterOpener::DeliveryMethod,
                                        location: File.expand_path('tmp/letter_opener', __dir__)
@@ -74,12 +74,10 @@ class UserMailer < ActionMailer::Base
 end
 ```
 
-1. create a method in the `UserMailer` called `notification_mailer` that expects a `:user` param
-2. set the subject and body of the mail to be specific to the User, using their name and email. You have access to helpers like `email_address_with_name(address, name)` which you may use in your scripts
-3. send that mail out calling `deliver_now` on the mailer
+In this exercise:
+1. Create `UserMailer` class that has a method called `notification_mailer` and expects a `:user` param
+2. Send the mail out calling `deliver_now` on the mailer - UserMailer.notification_mailer(user: user).deliver_now
 
-_Note: It's fine for now to have the mail body just be a plain text one._
+## 2.4 - Combine all the work completed in exercise 2.1 to 2.3.
 
-## 2.4 - Write a script to find the first User and send a rendered HTML email to them using Action Mailer
-
-Try and use whatever we have built (in steps 2.1 till 2.3) so far to solve this.
+Write a script that gets any user from database and sends a HTML formatted email to them using ActionMailer.

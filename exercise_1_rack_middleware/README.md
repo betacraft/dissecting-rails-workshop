@@ -12,6 +12,7 @@ rack-contrib
 
 The Gemfile has the necessary dependencies specified. To install, run below command -
 ```ruby
+cd exercise_1_rack_middleware
 bundle
 ```
 
@@ -25,13 +26,7 @@ Build a simple rack application that just renders the string "Hello World!". Let
 
 We have standard list of keynote speakers for the conference as -
 ```ruby
-CONFERENCE_KEYNOTE_SPEAKERS = [
-  'eileen',
-  'gary',
-  'rafael',
-  'shani',
-  'aaron'
-]
+CONFERENCE_KEYNOTE_SPEAKERS = %w[eileen gary rafael shani aaron]
 ```
 The application should accept `first_name` parameter and check if speaker is keynote speaker or not.
 

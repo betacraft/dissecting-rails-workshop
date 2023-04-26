@@ -12,6 +12,7 @@ rack-contrib
 
 The Gemfile has the necessary dependencies specified. To install, run below command -
 ```ruby
+cd exercise_1_rack_middleware
 bundle
 ```
 
@@ -20,18 +21,19 @@ bundle
 
 Build a simple rack application that just renders the string "Hello World!". Let's name this as SimpleRackApp.
 
+**_Save the file with a `.ru` extension._**
+You can use the below command to run the rack application (if filename is not provided a default filename of config.ru is assumed):
+```
+rackup [filename]     # e.g. rackup step1.ru
+rackup --help         # for other options
+```
+
 
 ### 1.2 Add a simple action that checks if a speaker is keynote speaker or not
 
 We have standard list of keynote speakers for the conference as -
 ```ruby
-CONFERENCE_KEYNOTE_SPEAKERS = [
-  'eileen',
-  'gary',
-  'rafael',
-  'shani',
-  'aaron'
-]
+CONFERENCE_KEYNOTE_SPEAKERS = %w[eileen gary rafael shani aaron]
 ```
 The application should accept `first_name` parameter and check if speaker is keynote speaker or not.
 
@@ -129,9 +131,11 @@ run Pony.new
 ```
 
 1.5.4. Visit the following URLs and see the different apps in action.
-- `http://localhost:9292/`
-- `http://localhost:9292/verify_keynote`
-- `http://localhost:9292/lobster`
-- `http://localhost:9292/pony`
-- `http://localhost:9292/pony/pony`
-- `http://localhost:9292/test_unhandled_route`
+- http://localhost:9292/
+- http://localhost:9292/verify_keynote
+- http://localhost:9292/verify_keynote?firstName=eileen
+- http://localhost:9292/verify_keynote?firstName=rtdp
+- http://localhost:9292/lobster
+- http://localhost:9292/pony
+- http://localhost:9292/pony/pony
+- http://localhost:9292/test_unhandled_route

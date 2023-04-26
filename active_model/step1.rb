@@ -26,12 +26,15 @@ class User
 end
 
 user = User.new
-puts "is the user valid?: #{user.valid?}"
-puts "what needs to be fixed? #{user.errors.full_messages.to_sentence}"
+puts "user.valid? : #{user.valid?}"
+puts "user.errors.inspect : #{user.errors.inspect}"
+
 user.first_name = 'Example'
 user.last_name = 'User'
 user.email = 'rtdpbetacraft.com'
-puts "after setting the first_name, last_name and email?: #{user.valid?}"
-puts "what needs to be fixed? #{user.errors.full_messages.to_sentence}"
+puts "user.valid? : #{user.valid?}"
+puts "user.errors.inspect : #{user.errors.inspect}"
+
 user.email = 'rtdp@betacraft.io'
-puts "is it finally fixed?: #{user.valid?}"
+puts "user.valid? : #{user.valid?}"
+puts "user.errors.inspect : #{user.errors.inspect}"

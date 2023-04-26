@@ -38,11 +38,6 @@ end
 # and what needs to be fixed.
 class UserCSVValidator
 
-  def self.call(file_name)
-    new(file_name).call
-  end
-  private_class_method :new
-
   def initialize(file_name)
     @file_name = file_name
     @users = []
@@ -84,5 +79,5 @@ class UserCSVValidator
   end
 end
 
-UserCSVValidator.call('misc/good_users.csv')
-UserCSVValidator.call('misc/bad_users.csv')
+UserCSVValidator.new('misc/good_users.csv').call
+UserCSVValidator.new('misc/bad_users.csv').call
